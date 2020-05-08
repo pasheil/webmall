@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Shop;
+use App\Observers\ShopObserver;
+// use TCG\Voyager\Facades\Voyager;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Shop::observe(ShopObserver::class);
     }
 }
