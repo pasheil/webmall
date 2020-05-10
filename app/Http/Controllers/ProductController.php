@@ -32,6 +32,26 @@ class ProductController extends Controller
         return view('product.index', compact('products', 'categoryName'));
     }
 
+
+public function search(Request $request)
+{
+
+    $query = $request->input('query');
+
+    $products = Product::where('name','LIKE',"%$query%")->paginate(10);
+
+    // dd($products);
+
+    return view('product.catalog', compact('products'));
+}
+
+
+
+
+
+
+
+
     /**
      * Show the form for creating a new resource.
      *
