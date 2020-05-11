@@ -18,6 +18,7 @@ Route::redirect('/', '/home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/contact', 'HomeController@contact')->name('contact');
 
 Route::get('/products/search', 'ProductController@search')->name('products.search');
 Route::resource('products', 'ProductController');
