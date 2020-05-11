@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Coupon;
 use Darryldecode\cart\cart;
 use Illuminate\Http\Request;
 
@@ -55,5 +56,34 @@ public function checkout()
 {
   return view('cart.checkout');
 }
+
+public function applyCoupon()
+{
+
+  $couponCode = request('coupon_code');
+
+  $couponData = Coupon::where('code', $couponCode)->first();
+
+// dd($couponData);
+
+  if (!$couponData) {
+    return back()->withMessage('Sorry! Coupon does not exist');
+  }
+
+
+  //coupon logic
+  $condition = new \Darryldecode\Cart\CartCondition(array(
+    'name' => $couponData->name,
+    'type' => $couponData->type,
+    'target' => 'total',  // this condition will be applied to cart's subtotal when getSubtotal() is called
+    'value' => $couponData->value,
+  ));
+
+  \Cart::session(auth()->id())->condition($condition); //for a specific user's cart
+
+  return back()->withMessage('coupon applied');
+
+}
+
 
 }
